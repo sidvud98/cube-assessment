@@ -1,6 +1,6 @@
 import logo from './logo.svg';
 import './App.css';
-import Canvas from './Canvas';
+import Canvas from './components/Canvas';
 
 
 function App() {

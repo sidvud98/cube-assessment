@@ -1,11 +1,14 @@
 import React, { useRef, useEffect, useState } from 'react'
 import axios from 'axios';
+import { useSelector, useDispatch } from "react-redux";
+import { cardsActions } from '../store/cards'
+
 
 
 
 function Card({ name, title, index }) {
   return (
-    <div key={index} style={{ border: 'solid', width: '500px', height: '300px' }}>
+    <div key={index} style={{ border: 'solid', width: '500px', height: '300px', backgroundColor: 'gray' }}>
       <h3>{name}</h3>
       <h4>{title}</h4>
     </div>
@@ -15,8 +18,14 @@ function Card({ name, title, index }) {
 
 
 const LeftPane = () => {
+
+  const dispatch = useDispatch();
+
+
+
   const scrollableDivRef = useRef(null);
-  const [users, setUsers] = useState([]);
+  const users = useSelector((state) => state.cards.users);
+
   const countRef = useRef(0);
   const hasMore = useRef(true);
   const [loading, setLoading] = useState(false);
@@ -35,7 +44,7 @@ const LeftPane = () => {
           hasMore.current = false
           return
         }
-        setUsers(prevUsers => [...new Set([...prevUsers, ...response.data])]);
+        dispatch(cardsActions.add(response.data))
         setLoading(false);
         countRef.current += 1
         console.log('added');
