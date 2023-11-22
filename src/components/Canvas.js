@@ -1,15 +1,16 @@
 import React from 'react'
 import LeftPane from './LeftPane'
 import DetailedPane from './DetailedPane'
+import '../styles/index.scss'
 
 export default function Canvas() {
   return (
-    <div style={{ backgroundColor: 'gray' }}>
-      <h1>This is the heading</h1>
-      <div>
+    <>
+      <div className='heading'>Heading Lorem Epsum</div>
+      <div className="canvas">
         <LeftPane />
         <DetailedPane />
       </div>
-    </div>
+    </>
   )
 }

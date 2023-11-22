@@ -2,15 +2,23 @@ import React, { useRef, useEffect, useState } from 'react'
 import axios from 'axios';
 import { useSelector, useDispatch } from "react-redux";
 import { cardsActions } from '../store/cards'
+import { useCallback } from 'react';
+import '../styles/index.scss'
+import Loader from './Helpers/Loader'
 
 
-
-
-function Card({ name, title, index }) {
+function Card({ name, title, innerRef, isActive, id }) {
+  const dispatch = useDispatch()
+  let handleClick = (id) => {
+    dispatch(cardsActions.changeActiveId(id))
+  }
   return (
-    <div key={index} style={{ border: 'solid', width: '500px', height: '300px', backgroundColor: 'gray' }}>
-      <h3>{name}</h3>
-      <h4>{title}</h4>
+    <div
+      className={`card ${isActive ? 'active' : null}`}
+      onClick={(e) => { handleClick(id) }}
+      id={id} ref={innerRef}>
+      <h3 className='name'>{name}</h3>
+      <h4 className='role'>{title}</h4>
     </div>
   )
 }
@@ -18,21 +26,17 @@ function Card({ name, title, index }) {
 
 
 const LeftPane = () => {
-
   const dispatch = useDispatch();
-
-
-
-  const scrollableDivRef = useRef(null);
   const users = useSelector((state) => state.cards.users);
+  const activeId = useSelector((state) => state.cards.activeId);
 
   const countRef = useRef(0);
-  const hasMore = useRef(true);
+  const [hasMore, setHasMore] = useState(true);
   const [loading, setLoading] = useState(false);
 
 
-
   const fetchData = () => {
+    if (!hasMore) return
     setLoading(true)
     axios({
       method: 'GET',
@@ -41,58 +45,54 @@ const LeftPane = () => {
     })
       .then((response) => {
         if (response.data.length === 0) {
-          hasMore.current = false
+          setHasMore(false)
+          setLoading(false)
           return
         }
         dispatch(cardsActions.add(response.data))
         setLoading(false);
         countRef.current += 1
-        console.log('added');
       })
       .catch((error) => {
-        // console.error('Error fetching users: ', error);
         setLoading(false);
         return
       });
   }
 
-
-  const handleScroll = () => {
-    const div = scrollableDivRef.current;
-    if (hasMore.current && div) {
-      const { scrollTop, scrollHeight, clientHeight } = div;
-      if (scrollHeight - scrollTop === clientHeight) {
+  const scrollableDivRef = useRef(null);
+  const observer = useRef()
+  const LastCardRef = useCallback(element => {
+    if (observer.current) observer.current.disconnect()
+    observer.current = new IntersectionObserver(entries => {
+      if (entries[0].isIntersecting && !loading) {
         fetchData()
       }
-    }
-  }
+    }, { threshold: 0.75 })
+    if (element) observer.current.observe(element)
+  }, [loading])
 
 
   useEffect(() => {
     fetchData()
-    const div = scrollableDivRef.current;
-    if (div) {
-      div.addEventListener('scroll', handleScroll);
-    }
-
-    return () => {
-      if (div) {
-        div.removeEventListener('scroll', handleScroll);
-      }
-    };
   }, [])
-
-
 
   return (
     <div
       ref={scrollableDivRef}
-      style={{ overflowY: 'scroll', height: 'calc(100vh - 82px)', border: 'solid red' }}
+      className='left-pane'
     >
       {users.map((item, index) => {
-        return <Card name={item.name} title={item.company.bs} index={index} />
+        return (
+          <Card
+            name={item.name}
+            innerRef={users.length === index + 1 ? LastCardRef : null}
+            title={item.company.bs}
+            id={item.id}
+            isActive={item.id === activeId}
+          />
+        )
       })}
-      {loading && <h1>Loading...</h1>}
+      {loading && <Loader />}
     </div>
   );
 };

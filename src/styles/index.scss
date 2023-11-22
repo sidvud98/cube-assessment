@@ -1,0 +1,111 @@
+.heading {
+  font-size: 29px;
+  margin: 29px 0;
+}
+
+
+
+.canvas {
+  border-top: 1.5px solid #f3f3f2;
+  display: flex;
+
+  .left-pane {
+    display: flex;
+    flex-wrap: wrap;
+    width: 28vw;
+    overflow-y: scroll;
+    height: calc(100vh - 82px);
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+
+    .card {
+      background-color: #fefffe;
+      width: 100%;
+      border-bottom: 1px solid #eaebea;
+      border-right: 1px solid #eaebea;
+
+      &.active {
+        background-color: #efefee;
+        border-right: 2px solid #34363d;
+
+        // &::after {
+        //   height: 100%;
+        //   width: 2px;
+        //   background-color: #34363d;
+        //   content: "";
+        //   top: -151px;
+        //   left: 408.5px;
+        //   display: block;
+        //   position: relative;
+        // }
+      }
+
+      .name {
+        font-size: 30px;
+        font-weight: 400;
+        text-align: left;
+        color: #33353b;
+        margin-left: 22px;
+      }
+
+      .role {
+        font-size: 20px;
+        font-weight: 400;
+        text-align: left;
+        color: #7c7c7c;
+        margin-left: 22px;
+        margin-top: -6px;
+        margin-bottom: 38px;
+      }
+
+    }
+  }
+
+  .detail-pane {
+    width: 72vw;
+    background-color: #f9f9f9;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow-y: scroll;
+    height: calc(100vh - 82px);
+
+    .creds {
+      .name {
+        margin-top: 47px;
+        font-weight: 300;
+        font-size: 39px;
+      }
+
+      .title,
+      .address {
+        color: #858485;
+        font-size: 21px;
+        font-weight: 400;
+        margin-top: -7px;
+      }
+
+      .address {
+        font-size: 16px;
+      }
+    }
+
+    .grid-container {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(200px, 1fr));
+      gap: 40px;
+      margin-top: 47px;
+      margin-bottom: 95px;
+
+      .grid-item {
+        height: 200px;
+        width: 200px;
+        border-radius: 17px;
+        overflow: clip;
+        box-shadow: 0px 0px 8px gray;
+      }
+    }
+  }
+}
