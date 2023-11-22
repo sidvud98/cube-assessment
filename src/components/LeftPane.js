@@ -7,7 +7,7 @@ import '../styles/index.scss'
 import Loader from './Helpers/Loader'
 
 
-function Card({ name, title, innerRef, isActive, id }) {
+const Card = React.memo(({ name, title, innerRef, isActive, id }) => {
   const dispatch = useDispatch()
   let handleClick = (id) => {
     dispatch(cardsActions.changeActiveId(id))
@@ -21,7 +21,7 @@ function Card({ name, title, innerRef, isActive, id }) {
       <h4 className='role'>{title}</h4>
     </div>
   )
-}
+})
 
 
 
@@ -97,4 +97,4 @@ const LeftPane = () => {
   );
 };
 
-export default LeftPane;
+export default React.memo(LeftPane);

@@ -5,7 +5,7 @@ import axios from 'axios';
 import { imgActions } from '../store/images'
 import ImageComponent from './Helpers/ImageComponent';
 
-export default function DetailedPane() {
+const DetailedPane = () => {
   const dispatch = useDispatch();
   const urlsArray = useSelector(state => state.images.urls)
   const activeId = useSelector(state => state.cards.activeId)
@@ -39,12 +39,12 @@ export default function DetailedPane() {
   }, [activeId])
 
 
-  // useEffect(() => {
-  //   const interval = setInterval(() => { fetchImg() }, 10000);
-  //   return () => {
-  //     clearInterval(interval);
-  //   }
-  // }, [])
+  useEffect(() => {
+    const interval = setInterval(() => { fetchImg() }, 10000);
+    return () => {
+      clearInterval(interval);
+    }
+  }, [])
 
 
   const usrDetails = useSelector(state => state.cards.activeUser)
@@ -68,3 +68,6 @@ export default function DetailedPane() {
     </div>
   )
 }
+
+
+export default React.memo(DetailedPane)

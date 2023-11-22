@@ -3,7 +3,7 @@ import LeftPane from './LeftPane'
 import DetailedPane from './DetailedPane'
 import '../styles/index.scss'
 
-export default function Canvas() {
+const Canvas = () => {
   return (
     <>
       <div className='heading'>Heading Lorem Epsum</div>
@@ -14,3 +14,7 @@ export default function Canvas() {
     </>
   )
 }
+
+
+export default React.memo(Canvas)
+

@@ -1,10 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 
-
-
-
-
 const imgSlice = createSlice({
   name: 'images',
   initialState: { urls: [], okay: 1 },

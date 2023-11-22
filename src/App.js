@@ -1,9 +1,10 @@
+import React from 'react';
 import './App.css';
 import Canvas from './components/Canvas';
 
 
 // require('dotenv').config()
-function App() {
+const App = () => {
   return (
     <div className="App">
       <Canvas />
@@ -11,4 +12,4 @@ function App() {
   );
 }
 
-export default App;
+export default React.memo(App);
