@@ -1,5 +1,7 @@
 This project has been created as a part of interview assessment for Cube
 
+Deployed: https://cube-assessment.vercel.app/
+
 This application has been created by Sai Siddharth Vudikavalasa
 
 contact:
